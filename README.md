@@ -1,116 +1,128 @@
-Certainly! Here is the complete `README.md` file in a single markdown format:
+# Mental Health Support API
 
-```markdown
-# Mental Health Support and Sentiment Analysis API
+## Introduction
 
-This FastAPI project provides two main functionalities: mental health support through article recommendations and sentiment analysis of movie reviews using a machine learning model.
+This API provides an automated mental health support system that aims to assist users facing mental health issues. It combines the power of Large Language Models (LLMs) and machine learning to offer conversational responses, relevant article suggestions, and sentiment analysis of movie reviews.
 
-## Table of Contents
+## Requirements
 
-- [Installation](#installation)
-- [Environment Variables](#environment-variables)
-- [Endpoints](#endpoints)
-  - [/rag](#rag)
-  - [/classification](#classification)
-- [Running the Application](#running-the-application)
+- Python 3.x
+- FastAPI
+- Pydantic
+- dotenv
+- google.generativeai
+- joblib
+- uvicorn
 
-## Installation
+## Installation and Setup
 
-1. **Clone the repository**:
+Follow these steps to install and set up the Mental Health Support API:
 
-   ```bash
-   git clone https://github.com/your-username/mental-health-support-sentiment-analysis.git
-   cd mental-health-support-sentiment-analysis
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-username/mental-health-support-api.git
    ```
 
-2. **Create and activate a virtual environment**:
-
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # On Windows, use `venv\Scripts\activate`
+2. Navigate to the project directory:
+   ```
+   cd mental-health-support-api
    ```
 
-3. **Install the required packages**:
+3. Create a virtual environment (optional but recommended):
+   ```
+   python -m venv env
+   ```
 
-   ```bash
+   Then, activate the virtual environment:
+   ```
+   source env/bin/activate  # On Windows
+   source env/bin/activate  # On macOS and Linux
+   ```
+
+4. Install the required packages:
+   ```
    pip install -r requirements.txt
    ```
 
-## Environment Variables
+5. Set up your environment variables:
+   Create a `.env` file in the root directory and add your Google Cloud API key:
+   ```
+   GOOGLE_API_KEY=your_api_key
+   ```
 
-Create a `.env` file in the root directory of your project and add your Google API key:
+6. Start the API server:
+   ```
+   uvicorn main:app --reload
+   ```
 
-```
-GOOGLE_API_KEY=your_google_api_key
-```
+   The `--reload` flag automatically restarts the server when changes are detected in the code.
 
-## Endpoints
+## API Endpoints
 
-### /rag
+### Mental Health Support Endpoint (`/rag`)
 
-Provides mental health support by recommending relevant articles.
+This endpoint utilizes the Gemini chat model from Google Cloud to generate conversational responses and provide relevant article suggestions based on the user's query.
 
-- **URL**: `/rag`
-- **Method**: `POST`
-- **Request Body**:
-  ```json
-  {
-    "question": "I am feeling anxious, what should I do?"
-  }
-  ```
-- **Response**:
-  ```json
-  {
-    "responses": [
-      "response_from_gemini_model"
-    ],
-    "articles": [
-      {
-        "title": "Understanding Anxiety",
-        "url": "https://newsinhealth.nih.gov/2016/03/understanding-anxiety-disorders",
-        "summary": "A comprehensive guide on anxiety disorders."
-      },
-      {
-        "title": "Coping with Depression",
-        "url": "https://www.helpguide.org/articles/depression/coping-with-depression.htm",
-        "summary": "Effective strategies for dealing with depression."
-      }
-    ]
-  }
-  ```
+#### Request Format
 
-### /classification
-
-Classifies the sentiment of a given movie review.
-
-- **URL**: `/classification`
-- **Method**: `POST`
-- **Request Body**:
-  ```json
-  {
-    "text": "The movie was fantastic and thrilling!"
-  }
-  ```
-- **Response**:
-  ```json
-  {
-    "predicted_sentiment": "positive"
-  }
-  ```
-
-## Running the Application
-
-To start the FastAPI server, run the following command:
-
-```bash
-uvicorn main:app --host 0.0.0.0 --port 8000
+```json
+{
+  "question": "How can I manage my anxiety?"
+}
 ```
 
-The application will be available at `http://localhost:8000`.
+#### Response Format
+
+```json
+{
+  "responses": [
+    "Here are some strategies to manage your anxiety...",
+    "Remember to practice deep breathing and relaxation techniques.",
+    "Consider seeking professional help if your anxiety is impacting your daily life."
+  ],
+  "articles": [
+    {
+      "title": "Understanding Anxiety",
+      "url": "https://newsinhealth.nih.gov/2016/03/understanding-anxiety-disorders",
+      "summary": "A comprehensive guide on anxiety disorders."
+    },
+    {
+      "title": "Coping with Depression",
+      "url": "https://www.helpguide.org/articles/depression/coping-with-depression.htm",
+      "summary": "Effective strategies for dealing with depression."
+    }
+  ]
+}
+```
+
+### Sentiment Analysis Endpoint (`/classification`)
+
+This endpoint performs sentiment analysis on movie reviews using a pre-trained machine learning model.
+
+#### Request Format
+
+```json
+{
+  "text": "I loved the movie! It was captivating from start to finish."
+}
+```
+
+#### Response Format
+
+```json
+{
+  "predicted_sentiment": "positive"
+}
+```
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-```
+This project is licensed under the MIT License.
 
-Make sure to replace `your-username` with your actual GitHub username if you are uploading this to your GitHub repository. Additionally, ensure that you have a `requirements.txt` file listing all the dependencies required for your project.
+## Contributing
+
+Contributions are welcome! Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to contribute to this project.
+
+## Credits
+
+This project was made possible by the contributions of the open-source community. A special thanks to the developers of FastAPI, Pydantic, and Google Cloud AI for providing the tools and models used in this API.
